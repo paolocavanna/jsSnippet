@@ -500,29 +500,75 @@ MYAPP.scrollToPos = function scrollToPos(opt) {
 
 	"use strict";
 
-	if ( !$(opt.target).length ) {
+	/**
+	 * target DOM node to scroll to.
+	 * You can pass in either a jQuery wrapped set or an unwrapped element:
+	 * it'll be converted to a jQuery wrapped set, if necessary.
+	 * @type {Object}
+	 */
+	var target = opt.target instanceof jQuery ? opt.target : $(opt.target);
 
-		console.log("$(target) not in DOM");
+	if ( !target.length ) {
+
+		console.warn("$(target) not in DOM");
 
 		return;
 
 	}
 
-	var position = parseInt($(opt.target).offset().top, 10),
+	var
+		/**
+		 * position Element top position
+		 * Bitshift is used to boost conversion time
+		 * @type {Number}
+		 */
+		position = target.offset().top >> 0,
 
+		/**
+		 * SPEED Animation speed
+		 * @type {Number}
+		 */
 		SPEED = opt.speed || 1000,
 
+		/**
+		 * OFFSET Optional offset to be subtracted from element's position
+		 * @type {Number}
+		 */
 		OFFSET = opt.offset || 0,
 
+		/**
+		 * _arguments Original arguments of the function
+		 * @type {Object}
+		 */
 		_arguments = arguments,
 
+		/**
+		 * args Real array function arguments
+		 * @type {Array}
+		 */
 		args = Array.prototype.slice.call(_arguments),
 
-		i = 1, // to filter off the first argument
+		/**
+		 * i Index to filter off the first argument
+		 * @type {Number}
+		 */
+		i = 1,
 
+		/**
+		 * len Arguments length
+		 * @type {Numer}
+		 */
 		len = _arguments.length,
 
-		callback = function() {
+		/**
+		 * callback Fn to be executed on animation end.
+		 * If there are enough arguments, loop through them
+		 * and, if they are functions, execute them.
+		 * If there aren't enough arguments, pass in an empty function
+		 * and save a loop.
+		 * @return {Function}
+		 */
+		callback = ~len ? function() {
 
 			for ( ; i < len; i += 1 ) {
 
@@ -534,7 +580,8 @@ MYAPP.scrollToPos = function scrollToPos(opt) {
 
 			}
 
-		};
+		} : $.noop;
+
 
 	$("html, body").stop().animate({
 
