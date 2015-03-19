@@ -86,3 +86,30 @@ MYAPP.getEmbed = function(url, index, hasAutoPlay){
 	return output;
 
 };
+
+MYAPP.getEmbed = function(url){
+
+	var output = "",
+
+		youtubeUrl = url.match(/watch\?v=([a-zA-Z0-9\-_]+)/),
+
+		vimeoUrl = url.match(/^http:\/\/(www\.)?vimeo\.com\/(clip\:)?(\d+).*$/);
+
+
+	if ( youtubeUrl ) {
+
+		//output = "<iframe src='http://www.youtube.com/embed/"+youtubeUrl[1]+"?rel=0&autoplay=1&wmode=opaque' frameborder='0' allowfullscreen></iframe>";
+		output = "<iframe src='//www.youtube.com/embed/"+youtubeUrl[1]+"?rel=0&autoplay=1&wmode=opaque' frameborder='0' allowfullscreen></iframe>";
+
+		return output;
+
+	} else if ( vimeoUrl ) {
+
+		//output = "<iframe src='http://player.vimeo.com/video/"+vimeoUrl[3]+"' frameborder='0'></iframe>";
+		output = "<iframe src='//player.vimeo.com/video/"+vimeoUrl[3]+"' frameborder='0'></iframe>";
+
+		return output;
+
+	}
+
+};
