@@ -1,6 +1,6 @@
 /**
  * @namespace MYAPP
- * @class ManageStorage
+ * @class ManageStorage Set up availability check.
  * Wrapper layer for WebStorage management.
  * @param  {Object} app App global namespace
  */
@@ -14,131 +14,173 @@
 		storage: localStorage
 	};
 
-	/**
-	 * @method  execute
-	 * Abstract calls to native WebStorage methods
-	 * to avoid browsers' quirks (expecially mobile borwsers in private mode).
-	 * @param  {String} operation Storage method
-	 * @param  {String} item      Storage item name
-	 * @param  {Object} data      Data to feed storage item
-	 * @example
-	 * app.ManageStorage.execute("setItem", "itemName", {
-	 *     foo: "bar"
-	 * });
-	 *
-	 * app.ManageStorage.execute("getItem", "itemName");
-	 */
-	ManageStorage.execute = function(operation, item, data){
+	ManageStorage._available;
 
-		try {
+	ManageStorage.isAvailable = function() {
 
-			if ( typeof data !== "undefined" ) {
+		var storageAvailable, storageWritable;
 
-				if ( typeof data === "object" ) {
+		if ( this._available !== undefined ) {
 
-					switch(operation){
+			return this._available;
 
-						case "setItem":
+		}
 
-							data = JSON.stringify(data);
+		storageAvailable = (this.opt.storage !== undefined) && (typeof(JSON) !== "undefined");
 
-							this.opt.storage[operation](item, data);
+		if ( storageAvailable ) {
 
-							break;
+			try {
 
-						case "getItem":
+				this.opt.storage.setItem("storage:test", "test");
+				storageWritable = true;
+				this.opt.storage.removeItem("storage:test");
 
-							data = JSON.parse(data);
-
-							this.opt.storage[operation](item, data);
-
-							break;
-
-						default:
-
-					}
-
-				} else {
-
-					console.warn("Data supplied to WebStorage must be a valid JSON object");
-
-				}
-
-			} else {
-
-				this.opt.storage[operation](item);
-
+			} catch (e) {
+				storageWritable = false;
 			}
 
-		} catch(e) {
-
-			Storage.prototype["_" + operation] = Storage.prototype[operation];
-			Storage.prototype[operation] = function() {};
-
-			console.warn("WARNING: if you are browsing in private mode, WebStorage is not available");
+			this._available = storageWritable;
 
 		}
 
-	};
+		else {
 
-	/**
-	 * @method  key
-	 * Map WebStorage `key` method
-	 * @param  {Number} i Loop index
-	 * @return {Function}   Execute method
-	 */
-	ManageStorage.key = function(i){
-
-		return this.opt.storage.key(i);
-
-	};
-
-	/**
-	 * @method getLength Get storage length
-	 * @return {Number}
-	 */
-	ManageStorage.getLength = function(){
-
-		return this.opt.storage.length;
-
-	};
-
-	ManageStorage.check = function(id){
-
-		if ( id in this.opt.storage ){
-
-			return true;
+			this._available = false;
 
 		}
 
-		return false;
-
-	};
-
-	/**
-	 * @method  flush Clear storage utility.
-	 * If no argument is passed, the entire storage will be cleared.
-	 */
-	ManageStorage.flush = function(){
-
-		var arg = $.makeArray(arguments);
-
-		if ( arg.length > 0 ) {
-
-			$.each($.proxy(function(index, value){
-
-				this.action.call(this, "removeItem", value);
-
-			}), this);
-
-		} else {
-
-			this.opt.storage.clear();
-
-		}
+		return this._available;
 
 	};
 
 	app.ManageStorage = ManageStorage;
 
 })(MYAPP);
+
+/**
+ * @namespace MYAPP
+ * @class ManageStorage Init all module's methods after availability checking.
+ * Wrapper layer for WebStorage management.
+ * @param  {Object} module WebStorage module
+ */
+(function(module){
+
+	if ( module.isAvailable() ) {
+
+		/**
+		 * @method  execute
+		 * Abstract calls to native WebStorage methods
+		 * to avoid browsers' quirks (expecially mobile borwsers in private mode).
+		 * @param  {String} operation Storage method
+		 * @param  {String} item      Storage item name
+		 * @param  {Object} data      Data to feed storage item
+		 * @example
+		 * app.ManageStorage.execute("setItem", "itemName", {
+		 *     foo: "bar"
+		 * });
+		 *
+		 * app.ManageStorage.execute("getItem", "itemName");
+		 */
+		module.execute = function(operation, item, data){
+
+			if ( typeof operation === "undefined" ) {
+
+				console.warn("operation not defined in ManageStorage.execute");
+
+				return;
+			}
+
+			switch(operation){
+
+				case "setItem":
+
+					data = JSON.stringify(data);
+
+					this.opt.storage.setItem(item, data);
+
+					break;
+
+				case "getItem":
+
+					return JSON.parse(this.opt.storage.getItem(item));
+
+					break;
+
+				case "removeItem":
+
+					this.opt.storage.removeItem(item);
+
+					break;
+
+				default:
+
+			}
+
+		};
+
+		/**
+		 * @method  key
+		 * Map WebStorage `key` method
+		 * @param  {Number} i Loop index
+		 * @return {Function}   Execute method
+		 */
+		module.key = function(i){
+
+			return this.opt.storage.key(i);
+
+		};
+
+		/**
+		 * @method getLength Get storage length
+		 * @return {Number}
+		 */
+		module.getLength = function(){
+
+			return this.opt.storage.length;
+
+		};
+
+		module.check = function(id){
+
+			if ( id in this.opt.storage ){
+
+				return true;
+
+			}
+
+			return false;
+
+		};
+
+		/**
+		 * @method  flush Clear storage utility.
+		 * If no argument is passed, the entire storage will be cleared.
+		 */
+		module.flush = function(){
+
+			var arg = $.makeArray(arguments);
+
+			if ( !~arg.length ) {
+
+				$.each($.proxy(function(index, value){
+
+					this.action.call(this, "removeItem", value);
+
+				}), this);
+
+			} else {
+
+				this.opt.storage.clear();
+
+			}
+
+		};
+
+	} else {
+
+		console.warn("WARNING: if you are browsing in private mode, WebStorage is not available");
+
+	}
+
+})(MYAPP.ManageStorage);
