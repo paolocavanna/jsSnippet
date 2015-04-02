@@ -676,7 +676,7 @@ MYAPP._EVENTS_ = {
 	Object.extend = extend;
 
 	root.Object = Object;
-}(jQuery, JOG));
+}(jQuery, MYAPP));
 
 /**
 * Utility to manage cookies
