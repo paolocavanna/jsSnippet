@@ -1,4 +1,4 @@
-DMN.storeLocator = (function(){
+MYAPP.storeLocator = (function(){
 
 	var geoLoc = navigator.geolocation,
 
@@ -13,18 +13,18 @@ DMN.storeLocator = (function(){
 		geocoder,
 
 		//image = "img/icona_map.png",
-		image = DMN.globals.paths.img + "img/icona_map.png",
+		image = MYAPP.globals.paths.img + "img/icona_map.png",
 
 		geoOpt = {
 
-	        "enableHighAccuracy": true,
+			"enableHighAccuracy": true,
 
-	        "timeout": 10 * 1000,
+			"timeout": 10 * 1000,
 
-	        "maximumAge": 0,
+			"maximumAge": 0,
 
-	        "gearsRequestAddress": true
-	    },
+			"gearsRequestAddress": true
+		},
 
 		CONFIG = {
 
@@ -222,8 +222,6 @@ DMN.storeLocator = (function(){
 
 	_positionMarkersOnMap = function(){
 
-
-
 		var len = filteredResults.length,
 
 				latlngbounds = new google.maps.LatLngBounds(),
@@ -259,7 +257,7 @@ DMN.storeLocator = (function(){
 
 		} else {
 
-			alert(DMN.printMsgs("storeLocator", "wrong_address"));
+			alert(MYAPP.printMsgs("storeLocator", "wrong_address"));
 
 		}
 
@@ -313,7 +311,7 @@ DMN.storeLocator = (function(){
 
 		} else {
 
-			alert(DMN.printMsgs("storeLocator", "noresult"));
+			alert(MYAPP.printMsgs("storeLocator", "noresult"));
 
 		}
 
@@ -321,7 +319,7 @@ DMN.storeLocator = (function(){
 
 	_ajaxError = function(){
 
-		alert(DMN.printMsgs("storeLocator", "error"));
+		alert(MYAPP.printMsgs("storeLocator", "error"));
 
 	};
 
@@ -357,7 +355,7 @@ DMN.storeLocator = (function(){
 
 		var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-	    geocoder.geocode({"latLng": latlng }, _ajaxCall);
+		geocoder.geocode({"latLng": latlng }, _ajaxCall);
 
 	};
 
@@ -401,11 +399,11 @@ DMN.storeLocator = (function(){
 
 			geoLoc.getCurrentPosition(_getLongLat, _handleErrors, geoOpt);
 
-	    } else {
+		} else {
 
 			_eventListener();
 
-	    }
+		}
 
 
 	};
@@ -463,26 +461,3 @@ DMN.storeLocator = (function(){
 	}
 
 }());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
