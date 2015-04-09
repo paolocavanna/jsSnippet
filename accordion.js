@@ -1,18 +1,18 @@
 /**
 * A dummy accordion utility function
 * @class accordion
-* @module JOG
+* @module MYAPP
 * @static
 * @public
 * @dependencies utils.js
 */
-JOG.accordion = {
+MYAPP.accordion = {
 
 	wrapper: null,
 
 	heading: null,
 
-	EVT_OPEN: JOG._EVENTS_.accordion.open,
+	EVT_OPEN: MYAPP._EVENTS_.accordion.open,
 
 	init: function(){
 
