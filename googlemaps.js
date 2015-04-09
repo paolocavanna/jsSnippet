@@ -1,5 +1,5 @@
 /* jshint unused:true, boss:true, maxerr:500, -W099, quotmark: false, camelcase: false, indent: 4, smarttabs: true, browser: true, jquery: true */
-/* global JOG, google, Modernizr, FastClick, base_url,jog_market,jog_marketcode,jog_respathesources,jog_brand,jog_brandcode,jog_lang,jog_languagecode,pageType,_satellite */
+/* global google, Modernizr, FastClick */
 (function($, app, global, undefined) {
 
 "use strict";
@@ -72,4 +72,4 @@ GoogleMaps.on = function(eventName, fn) {
 
 app.GoogleMaps = GoogleMaps;
 
-}(jQuery, JOG, this));
+}(jQuery, MYAPP, this));
