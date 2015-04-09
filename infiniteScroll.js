@@ -1,4 +1,4 @@
-DMN.infiniteScroll = function(){
+MYAPP.infiniteScroll = function(){
 
 	var items = $(".proditem"),
 
@@ -51,7 +51,7 @@ DMN.infiniteScroll = function(){
 
 			print: function(){
 
-				var msg = "<p class='load-msg'>"+ DMN.printMsgs("loadMore","msg") +"</p>";
+				var msg = "<p class='load-msg'>"+ MYAPP.printMsgs("loadMore","msg") +"</p>";
 
 				msgWrapper.addClass("faded").html(msg);
 
