@@ -64,7 +64,6 @@ MYAPP.getEmbed = function(url, index, hasAutoPlay){
 
 	/**
 	 * @todo Make url parameters variable. Now they're configured as:
-	 * - anonymous player (no cookie will be installed)
 	 * - autoplay (dynamic)
 	 * - loop (dynamic)
 	 * - no controls
