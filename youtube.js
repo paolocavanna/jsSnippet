@@ -29,7 +29,11 @@
 		</li>
 	</ul>
  */
-
+/*
+ * @dependencies: 
+ * - jQuery
+ * - jQuery UI
+*/
 MYAPP.YouTubePlayer = (function(){
 
 	//GLOBALS
