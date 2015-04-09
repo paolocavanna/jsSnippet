@@ -38,7 +38,7 @@ MYAPP.namespace("Service");
 
 				var tpl = [];
 
-				tpl.push("<Request xmlns=\"http://schemas.datacontract.org/2004/07/FCA.WebServices.eGarage.Protocols\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">");
+				tpl.push("<Request>");
 				tpl.push("</Request>");
 
 				return tpl.join("");
