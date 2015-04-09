@@ -29,7 +29,6 @@ MYAPP.fixedScroll = function(obj){
 	};
 
 	// DO NOT call it directly on scroll.
-	// Uso a scroll handler insted.
-	// w.onscroll = _stickObj;
+	// Use a scroll handler insted.
 
 };
