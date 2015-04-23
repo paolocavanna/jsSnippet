@@ -1,8 +1,6 @@
 /* jshint unused:true, boss:true, maxerr:500, -W099, quotmark: false, camelcase: false, indent: 4, smarttabs: true, browser: true, jquery: true */
 /* global MYAPP */
 
-MYAPP.namespace("topics");
-
 /**
 * Manages communications between modules.
 * @class Topic
@@ -95,6 +93,7 @@ MYAPP.namespace = function(ns_string) {
 
 };
 
+MYAPP.namespace("topics");
 MYAPP.namespace("globals");
 MYAPP.namespace("_UTILS_");
 MYAPP.namespace("_EVENTS_");
