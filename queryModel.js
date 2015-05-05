@@ -14,6 +14,7 @@ MYAPP.QueryData = (function(app){
 		wsURI,
 
 		_query,
+		_queryChain,
 		_getWsURI,
 		_getQueryParams;
 
@@ -102,6 +103,32 @@ MYAPP.QueryData = (function(app){
 		return promise;
 
 	};
+	
+	/**
+	 * @function _queryChain Resolve any number of $.ajax calls
+	 * by exploiting $.when utility method.
+	 * @param {Array} Pass in an array of $.ajax calls
+	 * @return {Object} jQuery Promise object
+	 * @example
+	 * FCA.QueryData.queryChain([
+	 *		FCA.QueryData.query({
+	 *			url: "/path"
+	 *		}),
+	 *		FCA.QueryData.query({
+	 *			url: "/path"
+	 *		}),
+	 *		FCA.QueryData.query({
+	 *			url: "/path"
+	 *		})
+	 *	]);
+	 */
+	_queryChain = function(deferreds){
+
+		// var deferreds = $.makeArray(arguments);
+
+		return $.when.apply($, deferreds);
+
+	};
 
 	return {
 
@@ -109,7 +136,9 @@ MYAPP.QueryData = (function(app){
 
 		getWsURI: _getWsURI,
 
-		query: _query
+		query: _query,
+		
+		queryChain: _queryChain
 
 	};
 
