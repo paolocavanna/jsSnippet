@@ -1,5 +1,5 @@
 /**
- * @module MYAPP
+ * @namespace MYAPP
  * @class QueryData Manages all ajax calls
  * @param {Object} app Local reference to global app object
  * @return {Object} Public API
