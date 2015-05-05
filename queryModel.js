@@ -110,21 +110,19 @@ MYAPP.QueryData = (function(app){
 	 * @param {Array} Pass in an array of $.ajax calls
 	 * @return {Object} jQuery Promise object
 	 * @example
-	 * FCA.QueryData.queryChain([
-	 *		FCA.QueryData.query({
+	 * MYAPP.QueryData.queryChain([
+	 *		MYAPP.QueryData.query({
 	 *			url: "/path"
 	 *		}),
-	 *		FCA.QueryData.query({
+	 *		MYAPP.QueryData.query({
 	 *			url: "/path"
 	 *		}),
-	 *		FCA.QueryData.query({
+	 *		MYAPP.QueryData.query({
 	 *			url: "/path"
 	 *		})
 	 *	]);
 	 */
 	_queryChain = function(deferreds){
-
-		// var deferreds = $.makeArray(arguments);
 
 		return $.when.apply($, deferreds);
 
