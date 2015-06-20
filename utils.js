@@ -301,28 +301,64 @@ MYAPP.globals = {
 		},
 
 		/**
-		 * @method  elementInViewport Check if an element is in viewport
-		 * @param  {Object} el DOM node to be checked
-		 * @return {Boolean}
-		 * @example
-		 * MYAPP._UTILS_.elementInViewport($("map"))
-		 */
-		elementInViewport: function elementInViewport(el) {
+         * @method isVisible Check if an element is in viewport (on Y axis)
+         * @param  {Object | String}  box    Node element to be checked
+         * @param  {Number}  offset 
+         * @return {Boolean}     
+         * @example:
+         * MYAPP._UTILS_.isVisible($("#main-header"));
+         */
+        isVisible: function(box, offset) {
 
-			if ( el instanceof jQuery) {
+            var bottom, offset, top, viewBottom, viewTop, innerHeight, offsetTop;
 
-				el = el[0];
+            if (box instanceof jQuery) {
 
-			}
+                box = box[0];
 
-			var rect = el.getBoundingClientRect(),
-				h = window.innerHeight || document.documentElement.clientHeight
-				/*,
-				w = window.innerWidth || document.documentElement.clientWidth*/
-				;
-			return ((rect.top >= 0 && rect.bottom <= h) ||  (h-rect.top>h/8));
+            } else {
 
-		}
+                box = document.querySelector(box);
+            }
+
+            if (!box) {
+
+                return false;
+            }
+
+            innerHeight = function innerHeight() {
+                if ('innerHeight' in window) {
+                    return window.innerHeight;
+                } else {
+                    return document.documentElement.clientHeight;
+                }
+            };
+
+            offsetTop = function offsetTop(element) {
+                var top;
+                while (element.offsetTop === void 0) {
+                    element = element.parentNode;
+                }
+                top = element.offsetTop;
+                while (element = element.offsetParent) {
+                    top += element.offsetTop;
+                }
+                return top;
+            };
+
+            offset = offset || 0;
+
+            viewTop = window.pageYOffset;
+
+            viewBottom = viewTop + Math.min(box.clientHeight, innerHeight()) - offset;
+
+            top = offsetTop(box);
+
+            bottom = top + box.clientHeight;
+
+            return top <= viewBottom && bottom >= viewTop;
+
+        }
 
 	};
 
