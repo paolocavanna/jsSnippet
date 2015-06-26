@@ -37,7 +37,7 @@
 		var $target = $(evt.target),
 			$thisWrapper = $target.closest(".tab-content-wrapper"),
 			$thisCommands = $thisWrapper.find(".tab-commands"),
-			index = $thisCommands.find("a").index(this);
+			index = $thisCommands.find("a").index(evt.target);
 
 		if ($target.hasClass("on")) {
 
