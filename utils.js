@@ -162,8 +162,11 @@ MYAPP.globals = {
 * @namespace MYAPP
 * @submodule _UTILS_
 * @type {Object}
+* @param {Object} app App global object
+* @param {Object} w Window
+* @param {Object} d Document
 */
-(function(app){
+(function(app, w, d){
 
 	"use strict";
 
@@ -222,7 +225,7 @@ MYAPP.globals = {
 
 			var oRegex = new RegExp('[\?&]' + paramName + '=([^&]+)', 'i'),
 
-				oMatch = oRegex.exec(document.location.search);
+				oMatch = oRegex.exec(d.location.search);
 
 			if (oMatch && oMatch.length > 1) {
 
@@ -318,7 +321,7 @@ MYAPP.globals = {
 
             } else {
 
-                box = document.querySelector(box);
+                box = d.querySelector(box);
             }
 
             if (!box) {
@@ -327,10 +330,10 @@ MYAPP.globals = {
             }
 
             innerHeight = function innerHeight() {
-                if ('innerHeight' in window) {
-                    return window.innerHeight;
+                if ('innerHeight' in w) {
+                    return w.innerHeight;
                 } else {
-                    return document.documentElement.clientHeight;
+                    return d.documentElement.clientHeight;
                 }
             };
 
@@ -348,7 +351,7 @@ MYAPP.globals = {
 
             offset = offset || 0;
 
-            viewTop = window.pageYOffset;
+            viewTop = w.pageYOffset;
 
             viewBottom = viewTop + Math.min(box.clientHeight, innerHeight()) - offset;
 
@@ -362,7 +365,7 @@ MYAPP.globals = {
 
 	};
 
-})(MYAPP);
+})(MYAPP, window, document);
 
 
 /**
