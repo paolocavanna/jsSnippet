@@ -24,9 +24,9 @@
 	 */
 	Tabs.firstSetUp = function(){
 
-		$(this.commands).find("li:first-child > a").addClass("on");
+		$(this.opt.commands).find("li:first-child > a").addClass("on");
 
-		$(this.wrapper).find(".tab-content:first-of-type").addClass("on");
+		$(this.opt.wrapper).find(".tab-content:first-of-type").addClass("on");
 
 	};
 
